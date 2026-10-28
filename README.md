@@ -1,10 +1,6 @@
 # BBX Broadcast Studio — Community v1.0.1
 
-**Free live-only controller for Beyblade tournament broadcasts.** This is a separate, clean distribution modeled on the Spin Network Live scoring workflow; it does **not** include the Player Portal, League Network, accounts, tournament records, OBS automation, replays, highlights, Beyblade selections, or bans.
-
-## Windows — one-click installer
-
-The intended release download is **`BBX-Community-v1.0.1-Setup.exe`**. That Windows installer bundles Node.js, creates an optional desktop shortcut and Start-menu entry, and requires **no separate Node installation**. Double-click the shortcut to launch the local controller and open it in a web browser. Closing the controller's console window shuts down the local server. Closing only the browser tab does not stop the server.
+**Free live-only controller for Beyblade tournament broadcasts.**
 
 The installer is built by the supplied `.github/workflows/build-windows.yml` workflow. **A compiled Windows Setup.exe is not included in the source ZIP**; it must be compiled on a Windows runner or Windows PC using the supplied Inno Setup project. The ZIP is for development and source review.
 
@@ -21,9 +17,6 @@ Controller: **http://127.0.0.1:3784/**
 ## OBS Browser Source URLs
 
 Add an **OBS Browser Source** with these settings:
-
-| Output | Browser Source URL | Width | Height |
-|---|---|---:|---:|
 | Horizontal | `http://127.0.0.1:3784/outputs/horizontal.html` | 1920 | 1080 |
 | Vertical | `http://127.0.0.1:3784/outputs/vertical.html` | 1080 | 1920 |
 
