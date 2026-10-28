@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BBX Community — Horizontal OBS Overlay</title>
+  <link rel="stylesheet" href="/css/overlay.css"><script src="/js/overlay.js" defer></script>
+</head>
+<body data-format="horizontal">
+  <div class="overlay-stage" id="stage">
+    <div class="player-panels full" id="playerPanels">
+      <section class="rail p1" aria-label="Player 1 match data">
+        <div class="rail-head"><span class="side-index">P1</span><strong class="rail-name" id="railName1">PLAYER 1</strong><span class="rail-round" id="railRounds1">0 ROUNDS</span></div>
+        <div class="rail-stats"><div><small>MATCH PTS</small><strong id="matchPoints1">0</strong></div><div><small>FINISHES</small><strong id="finishCount1">0</strong></div><div><small>ROUND</small><strong id="railRound1">1</strong></div></div>
+        <div class="finish-stats"><span>SPIN <b id="spin1">0</b></span><span>OVER <b id="over1">0</b></span><span>BURST <b id="burst1">0</b></span><span>XTREME <b id="xtreme1">0</b></span></div>
+      </section>
+      <section class="rail p2" aria-label="Player 2 match data">
+        <div class="rail-head"><span class="side-index">P2</span><strong class="rail-name" id="railName2">PLAYER 2</strong><span class="rail-round" id="railRounds2">0 ROUNDS</span></div>
+        <div class="rail-stats"><div><small>MATCH PTS</small><strong id="matchPoints2">0</strong></div><div><small>FINISHES</small><strong id="finishCount2">0</strong></div><div><small>ROUND</small><strong id="railRound2">1</strong></div></div>
+        <div class="finish-stats"><span>SPIN <b id="spin2">0</b></span><span>OVER <b id="over2">0</b></span><span>BURST <b id="burst2">0</b></span><span>XTREME <b id="xtreme2">0</b></span></div>
+      </section>
+    </div>
+    <div class="scorebug" id="scorebug" aria-label="Current points"><strong class="score-score left" id="sbScore1">0</strong><div class="score-center"><span>BBX</span><small>POINTS</small></div><strong class="score-score right" id="sbScore2">0</strong></div>
+    <div class="finish-popout p1" id="finish1" aria-live="off"><span class="finish-eyebrow" id="finishDetail1">+1 POINT</span><strong id="finishTitle1">SPIN FINISH</strong></div>
+    <div class="finish-popout p2" id="finish2" aria-live="off"><span class="finish-eyebrow" id="finishDetail2">+1 POINT</span><strong id="finishTitle2">SPIN FINISH</strong></div>
+    <div class="callout" id="callout"></div>
+    <div class="judge" id="judge"><div class="call-line">OFFICIAL MATCH CALL</div><strong id="judgeText">JUDGE REVIEW</strong></div>
+    <div class="winner" id="winner"><div class="call-line">MATCH WINNER</div><strong id="winnerName">PLAYER 1</strong></div>
+  </div>
+</body>
+</html>

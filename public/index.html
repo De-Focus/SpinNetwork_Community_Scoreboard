@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b0d13"><title>BBX Community • Live Controller</title>
+<link rel="stylesheet" href="/css/controller.css">
+<script src="/js/controller.js" defer></script>
+</head>
+<body>
+<header class="topbar"><div class="brand"><div class="brand-icon">B</div><div><strong>BBX <span>COMMUNITY</span></strong><small>BROADCAST STUDIO · V1.0</small></div></div><div class="online"><span class="signal" id="signal"></span><span id="connection">Connecting…</span></div></header>
+<main class="workspace">
+  <div class="page-head"><div><div class="eyebrow">LIVE CONTROL ROOM / FREE EDITION</div><h1>Match control</h1><p>Enter player names, run scoring, and send graphics directly to OBS.</p></div><div class="edition">LIVE PAGE ONLY <span>•</span> NO OBS CONNECTION REQUIRED</div></div>
+  <section class="panel setup" aria-label="Match setup">
+    <div class="section-head"><div><h2>01 <span>Match Setup</span></h2><p>Manual player names. No player database or account required.</p></div><div class="pill">LOCAL MODE</div></div>
+    <form id="namesForm" class="name-grid">
+      <label class="field"><span class="player-id p1c">PLAYER ONE</span><input id="name1" aria-label="Player one name" maxlength="36" autocomplete="off" spellcheck="false" required value="Player 1"></label>
+      <label class="field"><span class="player-id p2c">PLAYER TWO</span><input id="name2" aria-label="Player two name" maxlength="36" autocomplete="off" spellcheck="false" required value="Player 2"></label>
+      <label class="field short"><span>TARGET POINTS</span><select id="target"><option value="4">4 Points</option><option value="5">5 Points</option><option value="7">7 Points</option><option value="10">10 Points</option></select></label>
+      <button type="submit" class="btn primary save">Save names</button>
+    </form>
+  </section>
+  <div class="layout">
+    <div class="main-col">
+      <section class="panel score-panel" aria-label="Live score">
+        <div class="section-head"><div><h2>02 <span>Live Scoreboard</span></h2><p>Match status updates immediately on both browser-source overlays.</p></div><div class="pill on-air">● ON AIR</div></div>
+        <div class="score-strip points-only" aria-label="Points-only scoreboard preview">
+          <div class="score-value p1c" id="score1">0</div>
+          <div class="score-mini-label"><strong>BBX</strong><span>POINTS</span></div>
+          <div class="score-value p2c" id="score2">0</div>
+        </div>
+        <div class="match-status-line"><span class="round-chip" id="roundNumber">ROUND 01</span><span id="targetText">FIRST TO 4</span><span>Player names and match statistics appear in side panels, not in the scorebug.</span></div>
+        <div id="winnerStatus" class="winner-status" hidden></div>
+        <div class="score-grid">
+          <div class="player-controls p1box"><div class="player-ctrl-head"><span class="side-dot p1bg"></span><strong id="heading1">Player 1</strong><span>P1</span></div><div class="finish-grid"><button class="btn finish" data-finish="spin" data-side="player1">Spin <b>+1</b></button><button class="btn finish" data-finish="over" data-side="player1">Over <b>+2</b></button><button class="btn finish" data-finish="burst" data-side="player1">Burst <b>+2</b></button><button class="btn finish" data-finish="xtreme" data-side="player1">Xtreme <b>+3</b></button></div><div class="match-data-bar" id="stats1">MATCH TOTAL: 0 PTS · 0 FINISHES</div><div class="control-row"><button class="btn secondary" data-command="score" data-side="player1">−1 Point</button><button class="btn outline-p1" data-command="roundWin" data-side="player1">Round Win</button><button class="btn green" data-command="matchWin" data-side="player1">Match Win</button></div></div>
+          <div class="player-controls p2box"><div class="player-ctrl-head"><span class="side-dot p2bg"></span><strong id="heading2">Player 2</strong><span>P2</span></div><div class="finish-grid"><button class="btn finish" data-finish="spin" data-side="player2">Spin <b>+1</b></button><button class="btn finish" data-finish="over" data-side="player2">Over <b>+2</b></button><button class="btn finish" data-finish="burst" data-side="player2">Burst <b>+2</b></button><button class="btn finish" data-finish="xtreme" data-side="player2">Xtreme <b>+3</b></button></div><div class="match-data-bar" id="stats2">MATCH TOTAL: 0 PTS · 0 FINISHES</div><div class="control-row"><button class="btn secondary" data-command="score" data-side="player2">−1 Point</button><button class="btn outline-p2" data-command="roundWin" data-side="player2">Round Win</button><button class="btn green" data-command="matchWin" data-side="player2">Match Win</button></div></div>
+        </div>
+      </section>
+      <section class="panel"><div class="section-head"><div><h2>03 <span>Round / Match Actions</span></h2><p>Manual actions keep the broadcast operator in control.</p></div></div><div class="actions"><button class="btn primary" data-command="nextRound">Load Next Round</button><button class="btn" data-command="undo">↶ Undo</button><button class="btn" data-command="swap">Swap Sides</button><button class="btn danger" data-command="resetMatch">Reset Match</button></div></section>
+      <section class="panel"><div class="section-head"><div><h2>04 <span>Judge / Match Calls</span></h2><p>Judge graphics automatically hide after five seconds. You can dismiss them early.</p></div><div class="pill" id="judgeStatus">CLEAR</div></div><div class="judges"><button class="btn" data-judge="JUDGE REVIEW">Judge Review</button><button class="btn" data-judge="RESHOOT">Reshoot</button><button class="btn" data-judge="PENALTY">Penalty</button><button class="btn" data-judge="DECK CHECK">Deck Check</button><button class="btn" data-judge="EQUIPMENT CHECK">Equipment Check</button><button class="btn" data-judge="MATCH PAUSED">Match Paused</button><button class="btn" data-judge="MATCH RESUMED">Match Resumed</button><button class="btn danger" data-command="hideJudge">Hide Judge Graphic</button></div></section>
+    </div>
+    <aside class="side-col">
+      <section class="panel"><div class="section-head"><div><h2>05 <span>Player Panels</span></h2><p>Choose how each format displays players.</p></div></div>
+        <h3>HORIZONTAL PLAYER PANELS</h3><div class="seg" role="group" aria-label="Horizontal panels"><button data-panel="horizontal" data-mode="full">Full</button><button data-panel="horizontal" data-mode="mini">Mini</button><button data-panel="horizontal" data-mode="hidden">Hidden</button></div>
+        <h3>VERTICAL PLAYER SHELF</h3><div class="seg" role="group" aria-label="Vertical panels"><button data-panel="vertical" data-mode="full">Full</button><button data-panel="vertical" data-mode="mini">Mini</button><button data-panel="vertical" data-mode="hidden">Hidden</button></div>
+        <h3>SCOREBOARD</h3><div class="seg" role="group" aria-label="Scoreboard visibility"><button data-scoreboard="true">Show</button><button data-scoreboard="false">Hide</button></div>
+      </section>
+      <section class="panel previews"><div class="section-head"><div><h2>06 <span>OBS Outputs</span></h2><p>Copy a URL into an OBS Browser Source. No scene switching required.</p></div></div>
+        <div class="output-label"><strong>Horizontal · 1920 × 1080</strong><a class="preview-link" target="_blank" rel="noopener" href="/outputs/horizontal.html?preview=1">Open browser preview ↗</a></div>
+        <div class="source-url"><input id="urlH" readonly aria-label="Horizontal OBS URL"><button class="btn copy" data-copy="urlH">Copy</button></div>
+        <div class="preview-window horizontal"><iframe id="previewH" title="Horizontal broadcast preview" src="/outputs/horizontal.html"></iframe></div>
+        <div class="output-label"><strong>Vertical · 1080 × 1920</strong><a class="preview-link" target="_blank" rel="noopener" href="/outputs/vertical.html?preview=1">Open browser preview ↗</a></div>
+        <div class="source-url"><input id="urlV" readonly aria-label="Vertical OBS URL"><button class="btn copy" data-copy="urlV">Copy</button></div>
+        <div class="preview-window vertical"><iframe id="previewV" title="Vertical broadcast preview" src="/outputs/vertical.html"></iframe></div>
+      </section>
+    </aside>
+  </div>
+  <footer>BBX BROADCAST STUDIO <span>•</span> COMMUNITY 1.0.1 <span>•</span> FREE LOCAL BROADCAST SOFTWARE</footer>
+</main>
+<div role="status" aria-live="polite" class="toast" id="toast"></div>
+</body>
+</html>

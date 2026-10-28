@@ -1,0 +1,51 @@
+name: Build BBX Community Windows Installer
+on:
+  workflow_dispatch:
+  push:
+    tags: ['community-v*']
+permissions:
+  contents: read
+jobs:
+  windows-installer:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify Community tests
+        run: npm test
+      - name: Download and verify official Node runtime
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $version = 'v22.23.4'
+          $archive = "node-$version-win-x64.zip"
+          $base = "https://nodejs.org/dist/$version"
+          Invoke-WebRequest "$base/$archive" -OutFile $archive
+          Invoke-WebRequest "$base/SHASUMS256.txt" -OutFile SHASUMS256.txt
+          $line = Get-Content SHASUMS256.txt | Where-Object { $_ -match "\s$([regex]::Escape($archive))$" } | Select-Object -First 1
+          if (-not $line) { throw "Checksum not found for $archive" }
+          $expected = ($line -split '\s+')[0].ToLowerInvariant()
+          $actual = (Get-FileHash $archive -Algorithm SHA256).Hash.ToLowerInvariant()
+          if ($actual -ne $expected) { throw "Node.js archive checksum mismatch" }
+          Expand-Archive $archive -DestinationPath .\unpacked
+          New-Item -ItemType Directory -Path runtime -Force | Out-Null
+          Copy-Item "unpacked\node-$version-win-x64\node.exe" "runtime\node.exe"
+      - name: Install Inno Setup compiler
+        shell: pwsh
+        run: choco install innosetup --no-progress -y
+      - name: Build one-click Setup.exe
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $iscc = "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe"
+          if (!(Test-Path $iscc)) { throw "Inno Setup compiler not found: $iscc" }
+          & $iscc "installer\BBXCommunity.iss"
+          if ($LASTEXITCODE -ne 0) { throw "Installer compilation failed" }
+      - name: Publish installer artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: BBX-Community-Windows-Setup
+          path: dist/BBX-Community-v1.0.1-Setup.exe
+          if-no-files-found: error
